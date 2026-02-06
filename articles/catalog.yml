@@ -3,7 +3,10 @@ PREDEF:
 
 CHAPS:
   - article.re
-
+  - nogu.re
+  - toman.re
+  - nanamin.re
+  - hotaka.re
 APPENDIX:
 
 POSTDEF:
