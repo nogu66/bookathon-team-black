@@ -112,7 +112,7 @@ https://platform.claude.com/docs/en/agent-sdk/subagents
 
 これにより、後で会話（セッション）を再開すること、会話のコピー（フォーク）をして異なるアプローチで実行をすることができます。
 
-== TyoeScript SDK、Python SDK
+== TypeScript SDK、Python SDK
 Claude Agent SDKは、TypeScriptとPythonので提供されています。本章ではTypeScript SDKを採用しています。
 
 == クイックスタート
@@ -141,9 +141,9 @@ https://agents.craft.do/
 
 == 参考文献
 
- * @<href>{https://www.anthropic.com/en/gineering/building-effective-agents, Building effective agents}
- * @<href>{https://platform.claude.com/docs/ja/agent-sdk/overview, Agent SDK 概要（日本語）}
- * @<href>{https://platform.claude.com/docs/en/agent-sdk/overview, Agent SDK 概要（英語版）}
- * @<href>{https://github.com/anthropics/claude-agent-sdk-demos?tab=readme-ov-file, Claude Code SDK Demo}
- * @<href>{https://www.anthropic.com/news/apple-xcode-claude-agent-sdk, Apple's Xcode now supports the Claude Agent SDK}　
- * @<href>{https://www.youtube.com/watch?v=TqC1qOfiVcQ&t=5s, Claude Agent SDK [Full Workshop] — Thariq Shihipar, Anthropic}
+• Building effective agents：https://www.anthropic.com/en/gineering/building-effective-agents
+• Agent SDK 概要（日本語）：https://platform.claude.com/docs/ja/agent-sdk/overview
+• Agent SDK 概要（英語版）：https://platform.claude.com/docs/en/agent-sdk/overview
+• Claude Code SDK Demo：https://github.com/anthropics/claude-agent-sdk-demos?tab=readme-ov-file
+• Apple's Xcode now supports the Claude Agent SDK：https://www.anthropic.com/news/apple-xcode-claude-agent-sdk
+• Claude Agent SDK [Full Workshop] — Thariq Shihipar, Anthropic：https://www.youtube.com/watch?v=TqC1qOfiVcQ&t=5s
