@@ -287,13 +287,26 @@ npx tsx quickstart.ts
 
 === Xcode
 
-2026年2月に追加されました
-https://www.anthropic.com/news/apple-xcode-claude-agent-sdk
+2026年2月、AppleのXcode 26.3にClaude Agent SDKがネイティブ統合されました。これにより、開発者はIDE内で直接エージェンティックなコーディング支援を利用できるようになりました。
+
+主な機能は以下の4つです。
+
+ * ビジュアル検証：Claudeがリアルタイムでプレビューを表示し、UIの問題を特定・修正できる。SwiftUI開発で特に有効
+ * プロジェクト全体の横断的な推論：個別のファイルだけでなく、プロジェクト全体の構造を理解し、アーキテクチャ上の判断を下すことができる
+ * 自律的なタスク実行：具体的な指示ではなくゴールを伝えるだけで、Claudeがタスクを分解し、必要なファイルの変更やAppleのドキュメント検索を自動で行う
+ * MCPインターフェース：Claude Code CLIからMCP経由でXcodeに接続し、コマンドラインからビジュアルプレビューにアクセスすることも可能
 
 === Craft Agents
 
-https://agents.craft.do/
+Craft Agentsは、Claude Agent SDKを基盤としたオープンソースのデスクトップアプリケーションです。Apache 2.0ライセンスで公開されています。
 
+Claude Codeと同様のエージェント機能を、デスクトップアプリのUIで提供しています。ドキュメント中心のワークフローに最適化されたインターフェースが特徴です。
+
+主な機能は以下のとおりです。
+
+ * ソース連携：MCP サーバー、REST API（Google、Slack、Microsoftなど）、ローカルファイルシステムなど、32以上のデータソースに接続可能
+ * セッション管理：Todo → In Progress → Needs Review → Done のステータスワークフローで作業を管理
+ * 権限モード：Explore（読み取り専用）、Ask to Edit（承認が必要）、Auto（自動実行）の3段階で、エージェントの自律性を制御
 
 == おわりに
 
