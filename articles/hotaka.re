@@ -1,15 +1,57 @@
-= タイトル
+= 妄想AIデバイス紹介
 
-== 妄想AIデバイス紹介
-
-=== はじめに
+== はじめに
 
 iPhoneが世界を変え、人々がインターネットを手に持つようになった今。
 わたしは次なる未来のAIデバイスを定義したい。
 
-=== 第一章　これまでのデバイス遍歴
+== 第一章　これまでのデバイス遍歴
 
-==== 1-1 情報を伝達する道具たち
+=== 1-1 情報を伝達する道具たち
+
+//embed[latex]{
+\begin{center}
+\begin{minipage}{0.30\textwidth}
+\centering
+\includegraphics[width=\textwidth]{images/hotaka/1.png}\\[2mm]
+{\small ▲図1 口伝・伝承}
+\end{minipage}
+\hfill
+\begin{minipage}{0.30\textwidth}
+\centering
+\includegraphics[width=\textwidth]{images/hotaka/2.png}\\[2mm]
+{\small ▲図2 石板・粘土板}
+\end{minipage}
+\hfill
+\begin{minipage}{0.30\textwidth}
+\centering
+\includegraphics[width=\textwidth]{images/hotaka/3.png}\\[2mm]
+{\small ▲図3 紙}
+\end{minipage}
+\end{center}
+
+\vspace{5mm}
+
+\begin{center}
+\begin{minipage}{0.30\textwidth}
+\centering
+\includegraphics[width=\textwidth]{images/hotaka/6.png}\\[2mm]
+{\small ▲図6 電話}
+\end{minipage}
+\hfill
+\begin{minipage}{0.30\textwidth}
+\centering
+\includegraphics[width=\textwidth]{images/hotaka/8.png}\\[2mm]
+{\small ▲図8 テレビ}
+\end{minipage}
+\hfill
+\begin{minipage}{0.30\textwidth}
+\centering
+\includegraphics[width=\textwidth]{images/hotaka/10.png}\\[2mm]
+{\small ▲図10 ノートPC}
+\end{minipage}
+\end{center}
+//}
 
 口伝・伝承の時代、情報＝人だった。語り手が死ねば消え、届く範囲は声の届く距離だけ。情報は儚く、広がりにくかった（図1）。
 
@@ -17,13 +59,13 @@ iPhoneが世界を変え、人々がインターネットを手に持つよう�
 
 紙の登場で情報は軽くなり、「持ち運べる」ようになった。知識が人の手の中に収まった最初の瞬間だった（図3）。
 
-活版印刷（グーテンベルク）で情報は大量に複製され、知識が民主化された。聖書も学問も、一部の特権ではなくなった（図4）。
+活版印刷（グーテンベルク）で情報は大量に複製され、知識が民主化された。聖書も学問も、一部の特権ではなくなった。
 
-電信（モールス信号）で情報から距離の概念が消えた。大陸の向こうへ、一瞬で届く（図5）。
+電信（モールス信号）で情報から距離の概念が消えた。大陸の向こうへ、一瞬で届く。
 
-電話で人の声そのものが遠くへ届くようになった。文字ではなく、感情を含んだ情報の伝達が可能になった（図6）。ラジオで情報は音として一斉に届いた。一人の声が、何百万人の耳に同時に届く時代の始まりだった（図7）。テレビで情報は映像になった。見たことのない土地の風景、戦場の様子、月面着陸。世界中が同じ瞬間を目撃した（図8）。
+電話で人の声そのものが遠くへ届くようになった。文字ではなく、感情を含んだ情報の伝達が可能になった（図6）。ラジオで情報は音として一斉に届いた。一人の声が、何百万人の耳に同時に届く時代の始まりだった。テレビで情報は映像になった。見たことのない土地の風景、戦場の様子、月面着陸。世界中が同じ瞬間を目撃した（図8）。
 
-大型コンピューターで情報は大量に計算されるようになった。人間の頭脳では扱えない規模のデータが処理可能になった（図9）。デスクトップPCで個人が情報をつくる側に回った。文書も絵も音楽も、自分の机の上で生まれるようになった。ノートパソコンで情報の生産が場所から解放された。カフェでも電車でも、どこでも書ける、つくれる（図10）。
+大型コンピューターで情報は大量に計算されるようになった。人間の頭脳では扱えない規模のデータが処理可能になった。デスクトップPCで個人が情報をつくる側に回った。文書も絵も音楽も、自分の机の上で生まれるようになった。ノートパソコンで情報の生産が場所から解放された。カフェでも電車でも、どこでも書ける、つくれる（図10）。
 
 こうして並べると、人類がやってきたことは一つだとわかる。情報を固定し、複製し、遠くへ飛ばし、速くし、誰もが触れられるようにする。デバイスの形は時代ごとに変わっても、向かう方向は常に同じだ。
 
@@ -33,75 +75,7 @@ iPhoneが世界を変え、人々がインターネットを手に持つよう�
 
 その流れを決定的に加速させた存在が、次に語るインターネットとスマートフォンである。
 
-//embed[latex]{
-\begin{figure}[h]
-\centering
-\begin{minipage}{0.18\textwidth}
-\centering
-\includegraphics[width=\textwidth]{images/hotaka/1.png}
-\caption*{▲図1\\口伝・伝承}
-\end{minipage}
-\hfill
-\begin{minipage}{0.18\textwidth}
-\centering
-\includegraphics[width=\textwidth]{images/hotaka/2.png}
-\caption*{▲図2\\石板・粘土板}
-\end{minipage}
-\hfill
-\begin{minipage}{0.18\textwidth}
-\centering
-\includegraphics[width=\textwidth]{images/hotaka/3.png}
-\caption*{▲図3\\紙}
-\end{minipage}
-\hfill
-\begin{minipage}{0.18\textwidth}
-\centering
-\includegraphics[width=\textwidth]{images/hotaka/4.png}
-\caption*{▲図4\\活版印刷}
-\end{minipage}
-\hfill
-\begin{minipage}{0.18\textwidth}
-\centering
-\includegraphics[width=\textwidth]{images/hotaka/5.png}
-\caption*{▲図5\\電信}
-\end{minipage}
-\end{figure}
-
-\begin{figure}[h]
-\centering
-\begin{minipage}{0.18\textwidth}
-\centering
-\includegraphics[width=\textwidth]{images/hotaka/6.png}
-\caption*{▲図6\\電話}
-\end{minipage}
-\hfill
-\begin{minipage}{0.18\textwidth}
-\centering
-\includegraphics[width=\textwidth]{images/hotaka/7.png}
-\caption*{▲図7\\ラジオ}
-\end{minipage}
-\hfill
-\begin{minipage}{0.18\textwidth}
-\centering
-\includegraphics[width=\textwidth]{images/hotaka/8.png}
-\caption*{▲図8\\テレビ}
-\end{minipage}
-\hfill
-\begin{minipage}{0.18\textwidth}
-\centering
-\includegraphics[width=\textwidth]{images/hotaka/9.png}
-\caption*{▲図9\\コンピューター}
-\end{minipage}
-\hfill
-\begin{minipage}{0.18\textwidth}
-\centering
-\includegraphics[width=\textwidth]{images/hotaka/10.png}
-\caption*{▲図10\\ノートPC}
-\end{minipage}
-\end{figure}
-//}
-
-==== 1-2 インターネットの普及ーiPhone革命ー
+=== 1-2 インターネットの普及ーiPhone革命ー
 
 1990年代、インターネットが一般に普及し始めた。情報の流れ方が根本から変わった瞬間だった。
 
@@ -125,7 +99,7 @@ iPhoneが変えたのは、「インターネットがポケットに入った�
 
 人類が何千年もかけて縮めてきた情報と人との距離が、ここで一気にほぼゼロになった。情報はもはや取りに行くものではなく、常に手の中にあるものになった。
 
-==== 1-3 成熟したスマホ
+=== 1-3 成熟したスマホ
 
 iPhoneの登場から17年が経った。
 
@@ -154,7 +128,7 @@ iPhoneの登場から17年が経った。
 
 それがAIである。
 
-==== 1-4 AI到来ー最適な器は何か？ー
+=== 1-4 AI到来ー最適な器は何か？ー
 
 2022年11月、ChatGPTが公開された。
 
@@ -188,9 +162,9 @@ AIの登場で、この関係が逆転する。
 
 この問いに答えるために、次章ではAIデバイスの設計思想を探っていく。
 
-=== 第二章　AIデバイス設計思想と原理
+== 第二章　AIデバイス設計思想と原理
 
-==== 2-0 現在のAIデバイス紹介
+=== 2-0 現在のAIデバイス紹介
 
 AIデバイスの時代はすでに始まっている。
 
@@ -207,29 +181,28 @@ Meta Ray-Banは、普通のサングラスに見えるが、カメラとスピ�
 それは、AIデバイスの設計原理がまだ確立されていないからだ。
 
 //embed[latex]{
-\begin{figure}[h]
-\centering
+\begin{center}
 \begin{minipage}{0.30\textwidth}
 \centering
-\includegraphics[width=\textwidth]{images/hotaka/Humane-Ai-Pin-Business.jpg.png}
-\caption*{▲Humane AI Pin}
+\includegraphics[width=\textwidth]{images/hotaka/Humane-Ai-Pin-Business.jpg.png}\\[2mm]
+{\small ▲Humane AI Pin}
 \end{minipage}
 \hfill
 \begin{minipage}{0.30\textwidth}
 \centering
-\includegraphics[width=\textwidth]{images/hotaka/01.jpeg.png}
-\caption*{▲Rabbit R1}
+\includegraphics[width=\textwidth]{images/hotaka/01.jpeg.png}\\[2mm]
+{\small ▲Rabbit R1}
 \end{minipage}
 \hfill
 \begin{minipage}{0.30\textwidth}
 \centering
-\includegraphics[width=\textwidth]{images/hotaka/Meta-Ray-Ban-Display-Gear-Meta-AI.jpg.png}
-\caption*{▲Meta Ray-Ban}
+\includegraphics[width=\textwidth]{images/hotaka/Meta-Ray-Ban-Display-Gear-Meta-AI.jpg.png}\\[2mm]
+{\small ▲Meta Ray-Ban}
 \end{minipage}
-\end{figure}
+\end{center}
 //}
 
-==== 2-1 AIにとっての入力とは何か
+=== 2-1 AIにとっての入力とは何か
 
 従来のデバイスは、人間の「明示的な入力」を待っていた。
 
@@ -257,7 +230,7 @@ AIにとって最も自然な入力は「コンテキスト」である。
 AIデバイスの入力は「命令」ではなく「状況」である。
 //}
 
-==== 2-2 推論はどこで行われるべきか
+=== 2-2 推論はどこで行われるべきか
 
 AIの「頭脳」はどこにあるべきか。
 
@@ -271,7 +244,7 @@ AIの「頭脳」はどこにあるべきか。
 
 この「ハイブリッド推論」が、実用的なAIデバイスの基本設計となる。
 
-==== 2-3 記憶はどう設計されるべきか
+=== 2-3 記憶はどう設計されるべきか
 
 AIデバイスが真に役立つためには、「記憶」が必要だ。
 
@@ -291,7 +264,7 @@ AIデバイスの記憶は三層構造で設計されるべきだ。
 記憶の所有権は、AIデバイス時代の最重要課題となる。
 //}
 
-==== 2-4 出力は"どれだけ少なくできるか"
+=== 2-4 出力は"どれだけ少なくできるか"
 
 スマートフォンは「画面」に縛られている。
 
@@ -311,7 +284,7 @@ AIデバイスは、出力を最小化すべきだ。
 最高のAIデバイスは、存在を意識させない。
 //}
 
-==== 2-5 フォームファクターが決まる理由
+=== 2-5 フォームファクターが決まる理由
 
 ここまでの原理を整理すると、AIデバイスの形が見えてくる。
 
@@ -335,9 +308,9 @@ AIデバイスは、出力を最小化すべきだ。
 
 おそらく、単一のデバイスではなく、複数のデバイスが連携する形になるだろう。
 
-=== 第三章　社会への影響
+== 第三章　社会への影響
 
-==== 3-1 生活：検索が消える／アプリが消える
+=== 3-1 生活：検索が消える／アプリが消える
 
 AIデバイスが普及すると、「検索」という行為が消える。
 
@@ -355,7 +328,7 @@ AIデバイスでは、ただ聞けばいい。「この花の名前は？」「
 インターフェースが消え、意図だけが残る。
 //}
 
-==== 3-2 仕事：秘書化、意思決定の補助、会議の再定義
+=== 3-2 仕事：秘書化、意思決定の補助、会議の再定義
 
 仕事における最大の変化は、「誰もが秘書を持てる」ことだ。
 
@@ -369,7 +342,7 @@ AIは過去のデータ、類似事例、リスク分析を即座に提示でき
 
 AIが参加者全員の発言をリアルタイムで記録し、要約し、アクションアイテムを抽出する。「先週の会議で田中さんが言っていたあの件」を、正確に引き出せる。
 
-==== 3-3 教育：学びの個別化、先生の役割が変わる
+=== 3-3 教育：学びの個別化、先生の役割が変わる
 
 教育は根本から変わる。
 
@@ -383,7 +356,7 @@ AIが基礎的な教育を担い、人間の先生は動機づけ、グループ
 「何を学ぶか」より「なぜ学ぶか」が重要になる。
 //}
 
-==== 3-4 倫理・制度：監視/同意/データ所有権/子ども
+=== 3-4 倫理・制度：監視/同意/データ所有権/子ども
 
 AIデバイスは、倫理的な課題を突きつける。
 
@@ -395,7 +368,7 @@ AIデバイスは、倫理的な課題を突きつける。
 
 子どもへの影響も慎重に考えるべきだ。AIが常に答えを教えてくれる環境で育った子どもは、自分で考える力を育めるのか。
 
-==== 3-5 新産業：AIデバイスOS、メモリ基盤、人格AI市場
+=== 3-5 新産業：AIデバイスOS、メモリ基盤、人格AI市場
 
 AIデバイスは、新しい産業を生み出す。
 
@@ -405,9 +378,9 @@ AIデバイスOS：複数のデバイスを統合し、シームレスな体験�
 
 人格AI市場：異なる性格、専門性を持つAIが選べるようになる。厳格なビジネスアシスタント、優しい話し相手、ユーモアのある友人。
 
-=== 第四章　未来で起こること
+== 第四章　未来で起こること
 
-==== 4-1 AIはスマホの「外側」で広がる
+=== 4-1 AIはスマホの「外側」で広がる
 
 当面、スマートフォンは消えない。
 
@@ -417,7 +390,7 @@ AIデバイスOS：複数のデバイスを統合し、シームレスな体験�
 
 スマートフォンは、これらのデバイスを統合する「ハブ」として残るかもしれない。だが、直接触れる時間は減っていく。
 
-==== 4-2 5年後：AIデバイスが主、スマホは管理画面
+=== 4-2 5年後：AIデバイスが主、スマホは管理画面
 
 5年後、多くの人が何らかのAIデバイスを身につけているだろう。
 
@@ -425,7 +398,7 @@ AIデバイスOS：複数のデバイスを統合し、シームレスな体験�
 
 かつてパソコンがそうだったように。毎日使うものから、必要なときだけ開くものへ。
 
-==== 4-3 AIが環境化する（家・街・車と統合）
+=== 4-3 AIが環境化する（家・街・車と統合）
 
 さらに先、AIはデバイスから解放される。
 
@@ -437,7 +410,7 @@ AIデバイスOS：複数のデバイスを統合し、シームレスな体験�
 AIは「使うもの」から「いるもの」になる。
 //}
 
-==== 4-4 最後の問い：人間は何を選ぶのか
+=== 4-4 最後の問い：人間は何を選ぶのか
 
 AIデバイスの未来は、技術だけでは決まらない。
 
@@ -451,7 +424,7 @@ AIデバイスの未来は、技術だけでは決まらない。
 
 AIデバイスは、これらの問いへの答えを、私たち一人ひとりに求めてくる。
 
-=== 著者が考えるAIデバイス
+== 著者が考えるAIデバイス
 
 私が考える理想のAIデバイスは、「存在を忘れられるもの」だ。
 
@@ -465,7 +438,7 @@ AIデバイスは、これらの問いへの答えを、私たち一人ひとり
 
 そんなAIデバイスが、いつか当たり前になる日を、私は待ち望んでいる。
 
-=== 終わりに
+== 終わりに
 
 デバイスの歴史は、情報と人との距離を縮める歴史だった。
 
