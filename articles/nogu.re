@@ -117,7 +117,165 @@ Claude Agent SDKは、TypeScriptとPythonので提供されています。本章
 
 == クイックスタート
 
-=== 公式サイトの載っているチュートリアルを描く
+Claude Agent SDKを使って、最小限のAIエージェントを構築してみましょう。このセクションでは、ユーザーのプロンプトに対してClaudeが自律的に対応するシンプルなエージェントを作成します。
+
+=== 前提条件
+
+* Node.js 18+
+* Anthropic アカウント（https://platform.claude.com/ でサインアップ）
+* 有効なAPI キー
+
+=== セットアップ
+
+==== プロジェクトフォルダの作成
+
+//list[project-setup][プロジェクトフォルダの作成]{
+mkdir claude-agent-sdk-demo && cd claude-agent-sdk-demo
+//}
+
+==== SDK のインストール
+
+//list[install-sdk][SDK のインストール]{
+npm install @anthropic-ai/claude-agent-sdk
+//}
+
+==== API キーの設定
+
+プロジェクトディレクトリに `.env` ファイルを作成し、API キーを設定します：
+
+//list[env-setup][API キーの設定]{
+ANTHROPIC_API_KEY='<あなたのAPIキー>'
+//}
+
+=== 初めてのエージェントを作成する
+
+`quickstart.ts` を作成し、以下のコードを実装します：
+
+//listnum[quickstart-code][初めてのエージェント]{
+import Anthropic from "@anthropic-ai/sdk";
+
+async function main() {
+  const anthropic = new Anthropic();
+
+  const msg = await anthropic.messages.create({
+    model: "claude-opus-4-6",
+    max_tokens: 1000,
+    messages: [
+      {
+        role: "user",
+        content: "再生可能エネルギー分野の最新動向を調べるには、何を検索すればよいでしょうか？"
+      }
+    ]
+  });
+  console.log(msg);
+}
+
+main().catch(console.error);
+//}
+
+=== エージェントを実行する
+
+//list[run-agent][エージェントを実行する]{
+npx tsx quickstart.ts
+//}
+
+実行後、プロンプトを入力すると、Claude がリアルタイムで応答を生成します。
+
+=== 出力例
+
+//listnum[output-example][出力例]{
+{
+  model: 'claude-opus-4-6',
+  id: 'msg_01WqcJjSx9EZJFUyERMvqaVV',
+  type: 'message',
+  role: 'assistant',
+  content: [
+    {
+      type: 'text',
+      text: '# 再生可能エネルギー分野の最新動向を調べるための検索ガイド\n' +
+        '\n' +
+        '## 🔍 おすすめの検索キーワード\n' +
+        '\n' +
+        '### 全般的な動向\n' +
+        '- 「再生可能エネルギー 最新動向 2024」\n' +
+        '- 「renewable energy trends 2024」\n' +
+        '- 「クリーンエネルギー 技術革新」\n' +
+        '- 「再エネ 政策動向」\n' +
+        '\n' +
+        '### 分野別の検索キーワード\n' +
+        '\n' +
+        '| 分野 | 日本語キーワード | 英語キーワード |\n' +
+        '|------|----------------|---------------|\n' +
+        '| 太陽光 | ペロブスカイト太陽電池 最新 | perovskite solar cell |\n' +
+        '| 洋上風力 | 浮体式洋上風力 日本 | floating offshore wind |\n' +
+        '| 水素 | グリーン水素 技術開発 | green hydrogen |\n' +
+        '| 蓄電池 | 全固体電池 / 定置型蓄電池 | solid-state battery |\n' +
+        '| 次世代 | 核融合 進捗 / 波力発電 | fusion energy / wave energy |\n' +
+        '\n' +
+        '---\n' +
+        '\n' +
+        '## 📚 信頼性の高い情報源\n' +
+        '\n' +
+        '### 日本語\n' +
+        '- **資源エネルギー庁**（経済産業省）のウェブサイト\n' +
+        '- **NEDO**（新エネルギー・産業技術総合開発機構）\n' +
+        '- **IRENA**（国際再生可能エネルギー機関）日本語資料\n' +
+        '- **環境ビジネスオンライン** / **スマートジャパン**\n' +
+        '\n' +
+        '### 英語（最先端の情報）\n' +
+        '- **IEA**（国際エネルギー機関）のレポート\n' +
+        '- **BloombergNEF**（BNEF）\n' +
+        '- **IRENA** の年次報告書\n' +
+        '- **Nature Energy** / **Joule**（学術誌）\n' +
+        '- **PV Magazine** / **Recharge News**\n' +
+        '\n' +
+        '---\n' +
+        '\n' +
+        '## 🎯 現在注目されているトピック例\n' +
+        '\n' +
+        '1. **ペロブスカイト太陽電池**の商用化動向\n' +
+        '2. **浮体式洋上風力発電**の大規模展開\n' +
+        '3. **グリーン水素**のコスト低減と供給網構築\n' +
+        '4. **系統用蓄電池**と電力グリッドの安定化\n' +
+        '5. **GX（グリーントランスフォーメーション）** 政策\n' +
+        '6. **PPA（電力購入契約）** モデルの普及\n' +
+        '7. **カーボンクレジット**と再エネの関係\n' +
+        '\n' +
+        '---\n' +
+        '\n' +
+        '## 💡 効率的な調べ方のコツ\n' +
+        '\n' +
+        '- **Google Scholar** で学術論文を検索する\n' +
+        '- **「filetype:pdf」** を加えると報告書が見つかりやすい\n' +
+        '- 英語で検索すると情報量が格段に増える\n' +
+        '- SNS（X/LinkedIn）で業界専門家をフォローする\n' +
+        '\n' +
+        '特定の分野やテーマについてさらに詳しく知りたい場合は、お気軽にお聞きください！'
+    }
+  ],
+  stop_reason: 'end_turn',
+  stop_sequence: null,
+  usage: {
+    input_tokens: 44,
+    cache_creation_input_tokens: 0,
+    cache_read_input_tokens: 0,
+    cache_creation: { ephemeral_5m_input_tokens: 0, ephemeral_1h_input_tokens: 0 },
+    output_tokens: 860,
+    service_tier: 'standard',
+    inference_geo: 'global'
+  }
+}
+//}
+
+=== 主要な概念
+
+#@# TODO:もっとちゃんと書いてください
+
+**query 関数**はエージェントループの中核です。非同期イテレータを返すため、Claudeが思考・推論する間、メッセージをストリーミングして表示できます。
+
+**prompt**はClaudeに実行してほしいタスクを指定します。ここではツールを使わないため、Claudeの自然言語による回答がそのまま結果になります。
+
+**options**でエージェントの動作をカスタマイズできます。デフォルトではツール機能が有効になりますが、この例では基本的な対話を行っています。
 
 == AIエージェントを作ってみる①
 
