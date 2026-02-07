@@ -5,6 +5,12 @@
 
 こんんちは、noguです。普段は、社内システムの開発、AIエージェントの開発、AI推進に携わっております。
 
+業務でAIエージェントの開発を行っていますが、高性能なエージェントの開発を難易度が高いと感じています。
+
+その中で開発に使用しているClaude Codeはエージェントとしてかなり性能が高いなと感じています。そこでこのClaude CodeがツールキットになっているClaude Agent SDKに目をつけました。
+
+本章では、Claude Agent SDKの概要とハンズオン形式でAIエージェントの作成を紹介していきます。
+
 == AIエージェント
 #@# TODO:AIエージェント（エージェント）の定義について修正する
 
@@ -106,7 +112,7 @@ https://platform.claude.com/docs/en/agent-sdk/subagents
 
 これにより、後で会話（セッション）を再開すること、会話のコピー（フォーク）をして異なるアプローチで実行をすることができます。
 
-== TyoeScript SDK、Python SDK
+== TypeScript SDK、Python SDK
 Claude Agent SDKは、TypeScriptとPythonので提供されています。本章ではTypeScript SDKを採用しています。
 
 == クイックスタート
@@ -135,9 +141,9 @@ https://agents.craft.do/
 
 == 参考文献
 
- * @<href>{https://www.anthropic.com/en/gineering/building-effective-agents, Building effective agents}
- * @<href>{https://platform.claude.com/docs/ja/agent-sdk/overview, Agent SDK 概要（日本語）}
- * @<href>{https://platform.claude.com/docs/en/agent-sdk/overview, Agent SDK 概要（英語版）}
- * @<href>{https://github.com/anthropics/claude-agent-sdk-demos?tab=readme-ov-file, Claude Code SDK Demo}
- * @<href>{https://www.anthropic.com/news/apple-xcode-claude-agent-sdk, Apple's Xcode now supports the Claude Agent SDK}　
- * @<href>{https://www.youtube.com/watch?v=TqC1qOfiVcQ&t=5s, Claude Agent SDK [Full Workshop] — Thariq Shihipar, Anthropic}
+• Building effective agents：https://www.anthropic.com/en/gineering/building-effective-agents
+• Agent SDK 概要（日本語）：https://platform.claude.com/docs/ja/agent-sdk/overview
+• Agent SDK 概要（英語版）：https://platform.claude.com/docs/en/agent-sdk/overview
+• Claude Code SDK Demo：https://github.com/anthropics/claude-agent-sdk-demos?tab=readme-ov-file
+• Apple's Xcode now supports the Claude Agent SDK：https://www.anthropic.com/news/apple-xcode-claude-agent-sdk
+• Claude Agent SDK [Full Workshop] — Thariq Shihipar, Anthropic：https://www.youtube.com/watch?v=TqC1qOfiVcQ&t=5s
