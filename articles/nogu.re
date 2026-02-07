@@ -121,6 +121,7 @@ Claude Agent SDKは、TypeScriptとPythonので提供されています。本章
 
 === Xcode
 
+2026年2月に追加されました
 https://www.anthropic.com/news/apple-xcode-claude-agent-sdk
 
 === Craft Agents
