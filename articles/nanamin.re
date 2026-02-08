@@ -25,43 +25,54 @@ nanamin
 
 本書を読み終わると、このような状態になっています。
 
- * 「壊さない」AI活用の方法がわかっている
+ * 「壊さない」Claude Code(AI Agent)活用の方法がわかっている
  * 社内知識を渡す手段としてRAGを理解している
  * ツール連携の入口としてMCPを知っている
  * AI利用に伴うリスク管理の考え方としてAI TRiSMをわかっている
 
 ==== 本書でやらないこと
 
- * フル自動開発（AIが勝手に本番変更する）は扱わない
- * 1つのLLMツールの使い方に最適化しない（ChatGPT/Claude/Copilot/Gemini前提）
- * MLモデルの学習・ファインチューニングは扱わない
+以下の内容は扱いません。
 
-=== 前提：利用するAIツールと情報の扱い
+ * AIによるフル自動開発(人はコード確認すらしないタイプの狭義Vibe Codingなど)
+ * Claude Code以外のLLMツールの使い方 (ChatGPT/GitHub Copilot/Geminiなど)
+ * Claude Code特有の技術(Skills, SubAgents, Agent Teamsなど)
+ * MLモデルの学習・ファインチューニング
 
- * 使う可能性があるツール（ChatGPT / Claude Code / GitHub Copilot / Gemini）
- * 扱う情報（PII・社外秘・運用ログなど）の注意
+=== 利用するツールと前提条件
+
+本書ではAI AgentとしてClaude Codeを利用します。また、ここでは大規模プロジェクトはSpring Bootというフレームワークを用いてKotlin@<fn>{Building_web_applications_with_Spring_Boot_and_Kotlin}で書かれているとします。
+//footnote[Building_web_applications_with_Spring_Boot_and_Kotlin]["Building web applications with Spring Boot and Kotlin" https://spring.io/guides/tutorials/spring-boot-kotlin ]
+
+ただし、Claude Code以外のAI Agentツールを使う場合でも、基本的な考え方は同じです。Claude Code特有の機能（Skills, SubAgents, Agent Teamsなど）については扱いませんので、その他のAI Agentツールを使う場合でも参考になると思います。
+また、内容は他の言語やフレームワークにも応用できるように書かれています。
 
 @<href>{https://github.com/nogu66/bookathon-team-black}
 
-== 用語集
+=== 本書の位置付け
 
-=== 生成AI・Copilot・AI Agentの使い分け
+生成AI・Copilot・AI Agentは@<table>{useOfAI}のように使い分けられます。本書では、AI Agentを中心に扱います。
+
 //table[useOfAI][生成AI・Copilot・AI Agentの使い分け]{
-名前    得意な用途
------------------------------------------------
-生成AI  文章化と候補出しが得意
-Copilot  実装の伴走が得意
-AI Agent  ツールを使った「手順実行」が得意（ただし危険）
+名前	得意な用途
+------------
+生成AI	文章化と候補出しが得意
+Copilot	実装の伴走が得意
+AI Agent	ツールを使った「手順実行」が得意（ただし危険）
 //}
 
-TODO: 図1：用語の地図と、本書の守備範囲
- * 本書で必ず扱う4つ：RAG / MCP / vibe coding / AI TRiSM
- * それ以外はコラムで扱う（必要なときだけ）
-#@#  参考　https://forest.watch.impress.co.jp/docs/serial/aidev/2078521.html
+また、本書で扱う重要な用語を@<img>{nanamin/AI_Glossary}にまとめます。
+
+//image[nanamin/AI_Glossary][用語Map]{
+  用語集
+//}
+
+#@#  参考: https://forest.watch.impress.co.jp/docs/serial/aidev/2078521.html
 
 
 == 壊さない開発：AIにやらせて良い仕事・悪い仕事
-=== まず結論：壊さないためのチェックリスト
+
+まずは結論から。壊さないためのチェックリストです。
 
  1. 目的・制約・Doneを固定する
  2. 影響範囲を調べてから書く
@@ -69,7 +80,7 @@ TODO: 図1：用語の地図と、本書の守備範囲
  4. テストを足してから安心する
  5. 差分は小さく、PR説明は厚く
 
-=== AIに向くタスク / 向かないタスク
+=== AIに向くタスクと向かないタスク
 
  * 向く：調査・要約・観点出し・候補の列挙
  * 向く：レビュー観点・テスト観点の生成
@@ -84,14 +95,14 @@ TODO: 図1：用語の地図と、本書の守備範囲
  * Step 4：テストで囲う（回帰を先に作る）
  * Step 5：差分を小さく作る（分割PR・段階導入）
 
-=== コーディング規約に寄せる
+=== コーディング規約を教えよう
 チームで暗黙のルールも明示的に書きます。例えば、コード内のコメントは英語で書く、勝手に新しいライブラリを追加しないなどです。
 コーディング規約が社内Wikiなどにまとまっている場合は、そのリンクをAIに渡すのも有効です。社内wikiを参照するために、RAGやMCPを活用する方法もあります@<hd>{mcp}。
 また、大規模プロジェクトの場合は活用できる既存コードが多くあるはずです。新規実装を避け、既存コードを活用するように明示的に指示しましょう。
 
 //list[main][コーディングルールの例][md]{
  * コード内のコメントは英語で書く
- * 新しいライブラリの追加禁止
+ * 新しいライブラリの追加禁止。既存のライブラリやコードを最大限活用する
  * 詳細なコーディング規約: https://example.com/coding-guidelines
 //}
 
@@ -99,26 +110,26 @@ TODO: 図1：用語の地図と、本書の守備範囲
 
 //footnote[Writing_a_good_CLAUDEmd]["Writing a good CLAUDE.md" https://www.humanlayer.dev/blog/writing-a-good-claude-md ]
 
-== vibe codingの安全運用
-Vibe Codeingとは
-ただし、初学者がVibe Codeingしすぎると、その分野やプロジェクトへの理解が浅くなる問題があります。
+== Vibe Codingの安全運用
+Vibe Codingとは
+ただし、初学者がVibe Codingしすぎると、その分野やプロジェクトへの理解が浅くなる問題があります。
 
  1. レベル1：提案だけ（自分で書く）
  2. レベル2：小さい差分だけ生成（1ファイル/1関数）
  3. レベル3：生成＋レビューゲート（必須チェック項目）
 
-===[column] vibe codingが逆効果になるサイン
+===[column] Vibe Codingが逆効果になるサイン
 
  * 差分の説明ができない
  * テストが増えていない
  * 既存の流儀から外れているのに気づけない
 
+== RAGで社内知識を渡そう
 
-== 社内知識を渡す：RAGの超要点
+=== RAGとは？
 
-RAGとは？
+RAGが効果的になるのは、以下のような場合です。
 
-=== RAGが必要になる瞬間 / 不要な瞬間
  *  必要：仕様・運用・背景が散らばっている（Confluence/Slack/Jira/Drive）
  *  不要：1〜2ページの情報で足りる（まずは貼る/要約で良い）
 
@@ -129,6 +140,7 @@ Ingest（集める）→ Index（入れる）→ Retrieve（探す）→ Generat
 ===[column] RAGが不要なケース（先にやること）
  * まずは「固定の前提メモ」を作って毎回貼る
  * ドキュメントのリンク集を整備する（検索しやすくする）
+===[/column]
 
 === データソース別：取り込みと使い方のコツ
  * Confluence：ページ階層 / 更新日 / “決定事項”の抽出
@@ -145,7 +157,6 @@ Ingest（集める）→ Index（入れる）→ Retrieve（探す）→ Generat
  * 入力テンプレ（質問 / スコープ / 根拠要件）
  * 出力テンプレ（結論 / 根拠 / 不明点 / 次アクション）
 
-
 =={mcp} ツール連携：MCPで安全な手足を作る
 
 === MCPで何が嬉しいか（RAGだけでは足りない場面）
@@ -154,7 +165,7 @@ Ingest（集める）→ Index（入れる）→ Retrieve（探す）→ Generat
 
 === MCPの基本構造（用語だけ）
 
-Host / Client / Server で責務を分ける
+Host / Client / Serverで責務を分ける
 ツール＝関数（名前・引数・戻り値）として公開する
 
 
@@ -170,5 +181,33 @@ Host / Client / Server で責務を分ける
 ===[column] MCPが不要なケース
  * ツール連携をしない（IDE内の補助だけで完結）
  * まずはRAG（検索）だけで足りている
+===[/column]
 
+== AI TRiSM：守るためのチェックリスト（大規模プロジェクトの最小運用）
 
+=== なぜAI TRiSMが必要か
+ * 便利でも、誤り・漏えい・説明不能があると使えない
+ * 「ルールがあるから使える」状態を作る
+
+=== 最小のAI TRiSMチェックリスト
+ * Governance：責任者 / 利用範囲 / 禁止事項
+ * Trust：根拠 / 断定しない / 再現性
+ * Risk：誤り前提 / 影響の局所化 / ロールバック
+ * Security：データ保護 / 権限 / ログ / 監査
+
+=== チーム導入の最短手順（上司・同僚に通す）
+ * Read-only（検索/要約/観点出し）から始めよう
+
+ * 成果の測り方：時間短縮/バグ減/レビュー負荷
+ * 運用ルールの置き場所（Confluence 1ページでOK）
+
+具体例1：チーム合意メモ（目的/範囲/禁止/ログ/責任）
+具体例2：レビュー観点（AI利用PRのチェック項目）
+
+== おわりに
+
+=== まとめ
+ * 壊さない開発の型（chap2）
+ * 社内知識を渡す最小セット（chap3）
+ * 安全なツール連携の入口（chap4）
+ * ガバナンスの最小運用（chap5）
