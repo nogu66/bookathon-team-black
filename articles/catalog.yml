@@ -2,10 +2,9 @@ PREDEF:
   - preface.re
 
 CHAPS:
-  - article.re
-  - nogu.re
   - toman.re
   - nanamin.re
+  - nogu.re
   - hotaka.re
 APPENDIX:
 

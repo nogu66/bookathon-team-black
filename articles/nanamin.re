@@ -25,40 +25,48 @@ nanamin
 
 本書を読み終わると、このような状態になっています。
 
- * 「壊さない」AI活用の方法がわかっている
+ * 「壊さない」Claude Code(AI Agent)活用の方法がわかっている
  * 社内知識を渡す手段としてRAGを理解している
  * ツール連携の入口としてMCPを知っている
  * AI利用に伴うリスク管理の考え方としてAI TRiSMをわかっている
 
 ==== 本書でやらないこと
 
- * フル自動開発（AIが勝手に本番変更する）は扱わない
- * 1つのLLMツールの使い方に最適化しない（ChatGPT/Claude/Copilot/Gemini前提）
- * MLモデルの学習・ファインチューニングは扱わない
+以下の内容は扱いません。
 
-=== 前提：利用するAIツールと情報の扱い
+ * AIによるフル自動開発(人はコード確認すらしないの狭義Vibe Codingなど)
+ * Claude Code以外のLLMツールの使い方 (ChatGPT, GitHub Copilot, Geminiなど)
+ * Claude Code特有の技術(Skills, SubAgents, Agent Teamsなど)
+ * MLモデルの学習・ファインチューニング
 
- * 使う可能性があるツール（ChatGPT / Claude Code / GitHub Copilot / Gemini）
- * 扱う情報（PII・社外秘・運用ログなど）の注意
+=== 利用するツールと前提条件
 
-@<href>{https://github.com/nogu66/bookathon-team-black}
+本書ではAI AgentとしてClaude Codeを利用します。また、ここでは大規模プロジェクトはSpring Bootというフレームワークを用いてKotlin@<fn>{Building_web_applications_with_Spring_Boot_and_Kotlin}で書かれているとします。
+//footnote[Building_web_applications_with_Spring_Boot_and_Kotlin]["Building web applications with Spring Boot and Kotlin" https://spring.io/guides/tutorials/spring-boot-kotlin]
 
-== 用語集
+ただし、Claude Code以外のAI Agentツールを使う場合でも、基本的な考え方は同じです。Claude Code特有の機能（Skills, SubAgents, Agent Teamsなど）については扱いませんので、その他のAI Agentツールを使う場合でも参考になると思います。
+また、内容は他の言語やフレームワークにも応用できるように書かれています。
 
-=== 生成AI・Copilot・AI Agentの使い分け
+=== 本書の位置付け
+
+一般的に、生成AI・Copilot・AI Agentは@<table>{useOfAI}のように使い分けられます。本書では、AI Agentを中心に扱います。
+
 //table[useOfAI][生成AI・Copilot・AI Agentの使い分け]{
-名前    得意な用途
------------------------------------------------
-生成AI  文章化と候補出しが得意
-Copilot  実装の伴走が得意
-AI Agent  ツールを使った「手順実行」が得意（ただし危険）
+名前	得意な用途
+------------
+生成AI	文章化と候補出しが得意
+Copilot	実装の伴走が得意
+AI Agent	ツールを使った「手順実行」が得意（ただし危険）
 //}
 
-TODO: 図1：用語の地図と、本書の守備範囲
- * 本書で必ず扱う4つ：RAG / MCP / vibe coding / AI TRiSM
- * それ以外はコラムで扱う（必要なときだけ）
-#@#  参考　https://forest.watch.impress.co.jp/docs/serial/aidev/2078521.html
+また、本書で扱う重要な用語を@<img>{nanamin/AI_Glossary}にまとめます。
 
+//image[nanamin/AI_Glossary][用語Map]{
+  用語集
+//}
+本書では、エンジニアの方にとっては一番身近な開発の話から始めます。続いて、文脈(RAG)、AI拡張(MCP)、Security(AI TRiSM)の順に解説します。
+
+#@#  参考: https://forest.watch.impress.co.jp/docs/serial/aidev/2078521.html
 
 == 壊さない開発：AIにやらせて良い仕事・悪い仕事
 
@@ -130,6 +138,7 @@ Ingest（集める）→ Index（入れる）→ Retrieve（探す）→ Generat
 ===[column] RAGが不要なケース（先にやること）
  * まずは「固定の前提メモ」を作って毎回貼る
  * ドキュメントのリンク集を整備する（検索しやすくする）
+===[/column]
 
 === データソース別：取り込みと使い方のコツ
  * Confluence：ページ階層 / 更新日 / “決定事項”の抽出
@@ -154,7 +163,7 @@ Ingest（集める）→ Index（入れる）→ Retrieve（探す）→ Generat
 
 === MCPの基本構造（用語だけ）
 
-Host / Client / Server で責務を分ける
+Host / Client / Serverで責務を分ける
 ツール＝関数（名前・引数・戻り値）として公開する
 
 
@@ -170,5 +179,36 @@ Host / Client / Server で責務を分ける
 ===[column] MCPが不要なケース
  * ツール連携をしない（IDE内の補助だけで完結）
  * まずはRAG（検索）だけで足りている
+===[/column]
 
+== AI TRiSM：守るためのチェックリスト（大規模プロジェクトの最小運用）
 
+=== なぜAI TRiSMが必要か
+ * 便利でも、誤り・漏えい・説明不能があると使えない
+ * 「ルールがあるから使える」状態を作る
+
+=== 最小のAI TRiSMチェックリスト
+ * Governance：責任者 / 利用範囲 / 禁止事項
+ * Trust：根拠 / 断定しない / 再現性
+ * Risk：誤り前提 / 影響の局所化 / ロールバック
+ * Security：データ保護 / 権限 / ログ / 監査
+
+=== チーム導入の最短手順（上司・同僚に通す）
+ * Read-only（検索/要約/観点出し）から始めよう
+
+ * 成果の測り方：時間短縮/バグ減/レビュー負荷
+ * 運用ルールの置き場所（Confluence 1ページでOK）
+
+具体例1：チーム合意メモ（目的/範囲/禁止/ログ/責任）
+具体例2：レビュー観点（AI利用PRのチェック項目）
+
+== おわりに
+
+=== まとめ
+ * 壊さない開発の型（chap2）
+ * 社内知識を渡す最小セット（chap3）
+ * 安全なツール連携の入口（chap4）
+ * ガバナンスの最小運用（chap5）
+
+ 本書のコードは以下のGitHubリポジトリで公開しています。
+ @<href>{https://github.com/nogu66/bookathon-team-black}
