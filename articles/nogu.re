@@ -3,13 +3,11 @@
 
 == はじめに
 
-こんんちは、noguです。普段は、社内システムの開発、AIエージェントの開発、AI推進に携わっております。
+こんんちは、noguです。普段は、社内システムの開発、AIエージェントの開発、AI推進に携わっております。最近、業務でAIエージェントの開発に取り組んでいますが、高性能なエージェントの開発を難易度が高いと感じています。エージェントの本質はシステムのループが本質と言われることがあります。特にループの制御が難しいにも関わらず、ツールの呼び出し、生成AIへの指示なども必要となります。
 
-業務でAIエージェントの開発を行っていますが、高性能なエージェントの開発を難易度が高いと感じています。
+AIエージェントという観点では、開発に使用しているClaude Codeがかなり性能が高いなと感じています。そこでClaude CodeをツールキットとしているClaude Agent SDKに目をつけました。これにより、
 
-その中で開発に使用しているClaude Codeはエージェントとしてかなり性能が高いなと感じています。そこでこのClaude CodeがツールキットになっているClaude Agent SDKに目をつけました。
-
-本章では、Claude Agent SDKの概要とハンズオン形式でAIエージェントの作成を紹介していきます。
+本章では、Claude Agent SDKの仕組みとClaude Agent SDKで作成されたエージェントについて紹介していきます。
 
 == AIエージェント
 #@# TODO:AIエージェント（エージェント）の定義について修正する
@@ -115,6 +113,72 @@ https://platform.claude.com/docs/en/agent-sdk/subagents
 == TypeScript SDK、Python SDK
 Claude Agent SDKは、TypeScriptとPythonので提供されています。本章ではTypeScript SDKを採用しています。
 
+== 主要な概念
+
+Claude Agent SDKを使いこなすために、3つの主要な概念を理解しておきましょう。
+
+=== query関数
+
+query関数は、エージェントループの中核となるエントリーポイントです。この関数がClaudeとのやりとり全体を管理します。
+
+query関数は非同期イテレータ（AsyncGenerator）を返します。これにより、Claudeがツールを実行しながら思考・推論する過程をリアルタイムにストリーミングで受け取ることができます。
+
+//listnum[query-basic][query関数の基本的な使い方]{
+import { query } from "@anthropic-ai/claude-agent-sdk";
+
+const q = query({
+  prompt: "srcディレクトリのバグを見つけて修正してください",
+  options: { model: "claude-sonnet-4-5-20250929" }
+});
+
+for await (const message of q) {
+  if (message.type === "result") {
+    console.log(message.result);
+  }
+}
+//}
+
+エージェントループとは、Claudeがタスクを完了するまで「思考→ツール実行→結果の確認」を繰り返す仕組みです。開発者がループを自分で実装する必要はありません。query関数がこのループ全体を自動的に制御します。
+
+=== prompt
+
+promptは、Claudeに実行してほしいタスクを自然言語で指定します。
+
+従来のAPIでは「どのツールをいつ呼ぶか」を開発者が制御する必要がありましたが、Agent SDKではpromptにゴールを記述するだけで、Claudeが必要なツールを自律的に選択して実行します。
+
+たとえば「srcディレクトリのバグを見つけて修正してください」というpromptを与えると、Claudeはファイルの読み込み、コードの検索、問題の特定、ファイルの編集といった一連の作業を自動で行います。
+
+=== options
+
+optionsは、エージェントの動作を細かくカスタマイズするための設定オブジェクトです。主要な設定項目は以下のとおりです。
+
+//table[options-table][optionsの主要な設定項目]{
+項目	説明
+------------
+model	使用するClaudeモデルを指定する
+allowedTools	エージェントが使用できるツールを制限する
+permissionMode	ファイル編集やコマンド実行の承認方法を制御する
+systemPrompt	エージェントの振る舞いを指示するシステムプロンプトを設定する
+maxTurns	エージェントループの最大ターン数を制限する
+mcpServers	外部システムに接続するMCPサーバーを設定する
+//}
+
+たとえば、バグ修正エージェントではファイルの読み書きだけを許可し、コマンド実行は禁止する、といった制御が可能です。
+
+//listnum[options-example][optionsの設定例]{
+const q = query({
+  prompt: "srcディレクトリのバグを見つけて修正してください",
+  options: {
+    model: "claude-sonnet-4-5-20250929",
+    allowedTools: ["Read", "Edit", "Glob", "Grep"],
+    permissionMode: "acceptEdits",
+    maxTurns: 10
+  }
+});
+//}
+
+この例では、Claudeにファイルの読み取り・編集・検索のみを許可し、ファイル変更は自動承認、最大10ターンで処理を完了するよう設定しています。
+
 == クイックスタート
 
 Claude Agent SDKを使って、最小限のAIエージェントを構築してみましょう。このセクションでは、ユーザーのプロンプトに対してClaudeが自律的に対応するシンプルなエージェントを作成します。
@@ -196,57 +260,7 @@ npx tsx quickstart.ts
         '\n' +
         '## 🔍 おすすめの検索キーワード\n' +
         '\n' +
-        '### 全般的な動向\n' +
-        '- 「再生可能エネルギー 最新動向 2024」\n' +
-        '- 「renewable energy trends 2024」\n' +
-        '- 「クリーンエネルギー 技術革新」\n' +
-        '- 「再エネ 政策動向」\n' +
-        '\n' +
-        '### 分野別の検索キーワード\n' +
-        '\n' +
-        '| 分野 | 日本語キーワード | 英語キーワード |\n' +
-        '|------|----------------|---------------|\n' +
-        '| 太陽光 | ペロブスカイト太陽電池 最新 | perovskite solar cell |\n' +
-        '| 洋上風力 | 浮体式洋上風力 日本 | floating offshore wind |\n' +
-        '| 水素 | グリーン水素 技術開発 | green hydrogen |\n' +
-        '| 蓄電池 | 全固体電池 / 定置型蓄電池 | solid-state battery |\n' +
-        '| 次世代 | 核融合 進捗 / 波力発電 | fusion energy / wave energy |\n' +
-        '\n' +
-        '---\n' +
-        '\n' +
-        '## 📚 信頼性の高い情報源\n' +
-        '\n' +
-        '### 日本語\n' +
-        '- **資源エネルギー庁**（経済産業省）のウェブサイト\n' +
-        '- **NEDO**（新エネルギー・産業技術総合開発機構）\n' +
-        '- **IRENA**（国際再生可能エネルギー機関）日本語資料\n' +
-        '- **環境ビジネスオンライン** / **スマートジャパン**\n' +
-        '\n' +
-        '### 英語（最先端の情報）\n' +
-        '- **IEA**（国際エネルギー機関）のレポート\n' +
-        '- **BloombergNEF**（BNEF）\n' +
-        '- **IRENA** の年次報告書\n' +
-        '- **Nature Energy** / **Joule**（学術誌）\n' +
-        '- **PV Magazine** / **Recharge News**\n' +
-        '\n' +
-        '---\n' +
-        '\n' +
-        '## 🎯 現在注目されているトピック例\n' +
-        '\n' +
-        '1. **ペロブスカイト太陽電池**の商用化動向\n' +
-        '2. **浮体式洋上風力発電**の大規模展開\n' +
-        '3. **グリーン水素**のコスト低減と供給網構築\n' +
-        '4. **系統用蓄電池**と電力グリッドの安定化\n' +
-        '5. **GX（グリーントランスフォーメーション）** 政策\n' +
-        '6. **PPA（電力購入契約）** モデルの普及\n' +
-        '7. **カーボンクレジット**と再エネの関係\n' +
-        '\n' +
-        '---\n' +
-        '\n' +
-        '## 💡 効率的な調べ方のコツ\n' +
-        '\n' +
-        '- **Google Scholar** で学術論文を検索する\n' +
-        '- **「filetype:pdf」** を加えると報告書が見つかりやすい\n' +
+        （略）
         '- 英語で検索すると情報量が格段に増える\n' +
         '- SNS（X/LinkedIn）で業界専門家をフォローする\n' +
         '\n' +
@@ -267,25 +281,162 @@ npx tsx quickstart.ts
 }
 //}
 
-=== 主要な概念
 
-#@# TODO:もっとちゃんと書いてください
+== Claude Agent SDKデモリポジトリ
 
-**query 関数**はエージェントループの中核です。非同期イテレータを返すため、Claudeが思考・推論する間、メッセージをストリーミングして表示できます。
+クイックスタートで基本的な使い方を確認したところで、より実践的なアプリケーションを見ていきましょう。
 
-**prompt**はClaudeに実行してほしいタスクを指定します。ここではツールを使わないため、Claudeの自然言語による回答がそのまま結果になります。
+Anthropic社が公式で提供しているデモリポジトリ（@<href>{https://github.com/anthropics/claude-agent-sdk-demos}）には、Agent SDKの機能を活かした7つのデモプロジェクトが収録されています。
 
-**options**でエージェントの動作をカスタマイズできます。デフォルトではツール機能が有効になりますが、この例では基本的な対話を行っています。
+本節では、その中から特徴的な3つのデモを取り上げ、それぞれがどのようなSDK機能を活用しているかを紹介します。
 
-== AIエージェントを作ってみる①
+=== シンプルチャットアプリ（simple-chatapp）
 
-== AIエージェントを作ってみる②
+Webブラウザ上でClaudeと対話できるチャットアプリケーションです。ReactによるフロントエンドとExpressによるバックエンドで構成され、WebSocketを使ったリアルタイム通信を実現しています。
 
-== AIエージェントを作ってみる③
+このデモは、Agent SDKをWebアプリケーションに組み込むための基本的なアーキテクチャパターンを示しています。
+
+//table[simple-chatapp-architecture][シンプルチャットアプリのアーキテクチャ]{
+レイヤー	技術	役割
+------------
+フロントエンド	React + Vite	チャットUI、WebSocket通信
+バックエンド	Express + WebSocket	APIサーバー、エージェント管理
+エージェント	Claude Agent SDK	query関数によるClaude呼び出し
+//}
+
+バックエンド側では、query関数をWebSocketと橋渡しするMessageQueueクラスを実装しています。これにより、ユーザーのメッセージをAgent SDKに渡し、Claudeの応答をリアルタイムでフロントエンドに配信します。
+
+//listnum[chatapp-session][AgentSessionクラスの概要（簡略版）]{
+import { query } from "@anthropic-ai/claude-agent-sdk";
+
+class AgentSession {
+  async processMessage(userMessage: string) {
+    const q = query({
+      prompt: userMessage,
+      options: {
+        model: "claude-sonnet-4-5-20250929",
+        allowedTools: [
+          "Bash", "Read", "Write", "Edit",
+          "Glob", "Grep", "WebSearch", "WebFetch"
+        ]
+      }
+    });
+
+    for await (const message of q) {
+      // WebSocket経由でフロントエンドに送信
+      this.sendToClient(message);
+    }
+  }
+}
+//}
+
+===={chatapp-sdk-features} 使用しているSDK機能
+
+ * @<b>{query関数}：エージェントループの制御。非同期イテレータでメッセージをストリーミング受信
+ * @<b>{組み込みツール}：Bash、Read、Write、Edit、Glob、Grep、WebSearch、WebFetchの8種類を許可
+ * @<b>{allowedTools}：エージェントが使用できるツールをホワイトリストで制限
+
+=== リサーチエージェント（research-agent）
+
+複数のサブエージェントが協調して調査レポートを作成するマルチエージェントシステムです。Python SDKで実装されています。
+
+ユーザーが「量子コンピューティングについて調べて」のようなプロンプトを与えると、リードエージェントがタスクを分解し、専門のサブエージェントに作業を委任します。
+
+//table[research-agent-roles][リサーチエージェントの役割分担]{
+エージェント	役割	使用ツール
+------------
+リードエージェント	タスク分解と全体指揮	Task（サブエージェント起動）
+リサーチャー	Webで情報を収集	WebSearch、Write
+データアナリスト	データ整理と可視化	Glob、Read、Bash、Write
+レポートライター	最終レポートの作成	Read、Write、Glob、Bash
+//}
+
+このデモの特徴は、サブエージェント機能とフック機能を組み合わせた高度なエージェント追跡システムです。
+
+//listnum[research-agent-tracking][フックによるサブエージェント追跡（概要）]{
+# PreToolUseフック：ツール実行前に記録
+def pre_tool_hook(tool_name, tool_input, agent_id):
+    tracker.record({
+        "agent": agent_id,
+        "tool": tool_name,
+        "input": tool_input,
+        "timestamp": datetime.now()
+    })
+
+# PostToolUseフック：ツール実行結果を記録
+def post_tool_hook(tool_name, tool_output, agent_id):
+    tracker.update_result(agent_id, tool_output)
+//}
+
+すべてのツール呼び出しがフックで記録され、どのエージェントがいつ何を実行したかをトランスクリプトとして出力します。
+
+===={research-sdk-features} 使用しているSDK機能
+
+ * @<b>{サブエージェント}：Taskツールによる専門エージェントの起動と並列実行
+ * @<b>{フック}：PreToolUse・PostToolUseフックでツール呼び出しを監視・記録
+ * @<b>{組み込みツール}：エージェントごとに異なるツールセットを割り当て
+ * @<b>{権限}：bypassPermissionsモードによる自動実行
+
+=== レジュメジェネレーター（resume-generator）
+
+人物名を入力すると、Webで情報を検索し、プロフェッショナルな履歴書をWord文書（.docx）として自動生成するエージェントです。
+
+//listnum[resume-usage][レジュメジェネレーターの実行]{
+npm start "Dario Amodei"
+//}
+
+このコマンドを実行すると、Claudeは以下のステップを自律的に実行します。
+
+ 1. WebSearchで対象人物のLinkedIn、GitHub、企業ページ、ニュース記事などを検索
+ 2. 収集した情報から職歴、学歴、スキルを抽出・整理
+ 3. docxライブラリを使用した履歴書生成スクリプトをJavaScriptで作成
+ 4. Bashツールでスクリプトを実行し、フォーマット済みの.docxファイルを出力
+
+//listnum[resume-query][レジュメジェネレーターの実装（簡略版）]{
+const q = query({
+  prompt: `${personName}の履歴書を作成してください`,
+  options: {
+    model: "claude-sonnet-4-5-20250929",
+    allowedTools: [
+      "WebSearch", "WebFetch", "Bash",
+      "Write", "Read", "Glob"
+    ],
+    cwd: "./agent",
+    settingSources: ["project"]
+  }
+});
+//}
+
+===={resume-sdk-features} 使用しているSDK機能
+
+ * @<b>{WebSearch・WebFetch}：Web検索による情報収集
+ * @<b>{スキル}：settingSourcesで.claude/skills/ディレクトリからカスタムスキルを読み込み、ドキュメント生成の手順をエージェントに教示
+ * @<b>{Bashツール}：生成したスクリプトの実行
+ * @<b>{作業ディレクトリ}：cwdオプションでエージェントの作業範囲を制限
+
+=== デモリポジトリのまとめ
+
+3つのデモを通じて、Claude Agent SDKの機能がどのように実践的なアプリケーションで活用されるかを確認しました。
+
+//table[demo-summary][デモで使用されたSDK機能のまとめ]{
+機能	チャットアプリ	リサーチエージェント	レジュメジェネレーター
+------------
+query関数	○	○	○
+組み込みツール	○	○	○
+サブエージェント	.	○	.
+フック	.	○	.
+スキル	.	.	○
+権限制御	○	○	○
+//}
+
+このように、同じSDKの機能を組み合わせることで、Webアプリケーション、マルチエージェントシステム、ドキュメント生成ツールといった多様なAIエージェントを構築できます。
 
 == Claude Agent SDKが使われている事例
 
 === Xcode
+
+//image[images/nogu/xcode][XcodeとClaude Agent SDKの統合]{
+//}
 
 2026年2月、AppleのXcode 26.3にClaude Agent SDKがネイティブ統合されました。これにより、開発者はIDE内で直接エージェンティックなコーディング支援を利用できるようになりました。
 
@@ -300,7 +451,10 @@ npx tsx quickstart.ts
 
 Craft Agentsは、Claude Agent SDKを基盤としたオープンソースのデスクトップアプリケーションです。Apache 2.0ライセンスで公開されています。
 
-Claude Codeと同様のエージェント機能を、デスクトップアプリのUIで提供しています。ドキュメント中心のワークフローに最適化されたインターフェースが特徴です。
+//image[images/nogu/craft-agent][Craft Agent]{
+//}
+
+Claude Codeと同様のエージェント機能を、デスクトップアプリのUIで提供しています。ドキュメント中心のワークフローに最適化されたインターフェースが特徴です。そのため。CLIベースのツールに慣れないユーザーにとっては適したアプリといえます。
 
 主な機能は以下のとおりです。
 
@@ -312,9 +466,9 @@ Claude Codeと同様のエージェント機能を、デスクトップアプリ
 
 == 参考文献
 
-• Building effective agents：https://www.anthropic.com/en/gineering/building-effective-agents
-• Agent SDK 概要（日本語）：https://platform.claude.com/docs/ja/agent-sdk/overview
-• Agent SDK 概要（英語版）：https://platform.claude.com/docs/en/agent-sdk/overview
-• Claude Code SDK Demo：https://github.com/anthropics/claude-agent-sdk-demos?tab=readme-ov-file
-• Apple's Xcode now supports the Claude Agent SDK：https://www.anthropic.com/news/apple-xcode-claude-agent-sdk
-• Claude Agent SDK [Full Workshop] — Thariq Shihipar, Anthropic：https://www.youtube.com/watch?v=TqC1qOfiVcQ&t=5s
+ * Building effective agents：https://www.anthropic.com/en/gineering/building-effective-agents
+ * Agent SDK 概要（日本語）：https://platform.claude.com/docs/ja/agent-sdk/overview
+ * Agent SDK 概要（英語版）：https://platform.claude.com/docs/en/agent-sdk/overview
+ * Claude Code SDK Demo：https://github.com/anthropics/claude-agent-sdk-demos?tab=readme-ov-file
+ * Apple's Xcode now supports the Claude Agent SDK：https://www.anthropic.com/news/apple-xcode-claude-agent-sdk
+ * Claude Agent SDK [Full Workshop] — Thariq Shihipar, Anthropic：https://www.youtube.com/watch?v=TqC1qOfiVcQ&t=5s
