@@ -230,8 +230,8 @@ async function main() {
   });
 
   for await (const message of q) {
-    if (message.type === "assistant") {
-      console.log(message.content);
+    if (message.type === "result") {
+      console.log(message.result);
     }
   }
 }
@@ -316,24 +316,41 @@ class AgentSession {
 リードエージェント	タスク分解と全体指揮	Task（サブエージェント起動）
 リサーチャー	Webで情報を収集	WebSearch、Write
 データアナリスト	データ整理と可視化	Glob、Read、Bash、Write
-レポートライター	最終レポートの作成	Read、Write、Glob、Bash
+レポートライター	最終レポートの作成	Skill、Read、Write、Glob、Bash
 //}
 
 このデモの特徴は、サブエージェント機能とフック機能を組み合わせた高度なエージェント追跡システムです。
 
-//listnum[research-agent-tracking][フックによるサブエージェント追跡（概要）]{
+//listnum[research-agent-tracking][フックによるサブエージェント追跡（簡略版）]{
+from claude_agent_sdk import HookMatcher
+from claude_agent_sdk.types import HookInput, HookContext, HookJSONOutput
+
 # PreToolUseフック：ツール実行前に記録
-def pre_tool_hook(tool_name, tool_input, agent_id):
-    tracker.record({
-        "agent": agent_id,
-        "tool": tool_name,
-        "input": tool_input,
-        "timestamp": datetime.now()
-    })
+async def pre_tool_hook(
+    hook_input: HookInput,
+    tool_use_id: str | None,
+    context: HookContext
+) -> HookJSONOutput:
+    tool_name = hook_input["tool_name"]
+    tool_input = hook_input["tool_input"]
+    tracker.record(tool_name, tool_input, tool_use_id)
+    return {}
 
 # PostToolUseフック：ツール実行結果を記録
-def post_tool_hook(tool_name, tool_output, agent_id):
-    tracker.update_result(agent_id, tool_output)
+async def post_tool_hook(
+    hook_input: HookInput,
+    tool_use_id: str | None,
+    context: HookContext
+) -> HookJSONOutput:
+    tool_response = hook_input["tool_response"]
+    tracker.update_result(tool_use_id, tool_response)
+    return {}
+
+# フックの登録
+hooks = {
+    "PreToolUse": [HookMatcher(matcher=None, hooks=[pre_tool_hook])],
+    "PostToolUse": [HookMatcher(matcher=None, hooks=[post_tool_hook])],
+}
 //}
 
 すべてのツール呼び出しがフックで記録され、どのエージェントがいつ何を実行したかをトランスクリプトとして出力します。
@@ -434,7 +451,7 @@ Claude Codeと同様のエージェント機能を、デスクトップアプリ
 
 主な機能は以下のとおりです。
 
- * ソース連携：MCP サーバー、REST API（Google、Slack、Microsoftなど）、ローカルファイルシステムなど、32以上のデータソースに接続可能
+ * ソース連携：32以上のCraftドキュメントツールを搭載し、MCP サーバー、REST API（Google、Slack、Microsoftなど）、ローカルファイルシステムを通じて多様なデータソースに接続可能
  * セッション管理：Todo → In Progress → Needs Review → Done のステータスワークフローで作業を管理
  * 権限モード：Explore（読み取り専用）、Ask to Edit（承認が必要）、Auto（自動実行）の3段階で、エージェントの自律性を制御
 
