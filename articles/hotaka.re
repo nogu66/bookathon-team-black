@@ -364,7 +364,7 @@ AIデバイスは、出力を最小化すべきである。
 
 //embed[latex]{
 \begin{center}
-\includegraphics[width=0.5\textwidth]{images/hotaka/necklace.png}\\[2mm]
+\includegraphics[width=0.6\textwidth]{images/hotaka/necklace.png}\\[2mm]
 {\small ▲ネックレス型AIデバイスのイメージ}
 \end{center}
 //}
