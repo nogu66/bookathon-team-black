@@ -34,24 +34,22 @@ nanamin
 
 以下の内容は扱いません。
 
- * AIによるフル自動開発(人はコード確認すらしないタイプの狭義Vibe Codingなど)
- * Claude Code以外のLLMツールの使い方 (ChatGPT/GitHub Copilot/Geminiなど)
+ * AIによるフル自動開発(人はコード確認すらしないの狭義Vibe Codingなど)
+ * Claude Code以外のLLMツールの使い方 (ChatGPT, GitHub Copilot, Geminiなど)
  * Claude Code特有の技術(Skills, SubAgents, Agent Teamsなど)
  * MLモデルの学習・ファインチューニング
 
 === 利用するツールと前提条件
 
 本書ではAI AgentとしてClaude Codeを利用します。また、ここでは大規模プロジェクトはSpring Bootというフレームワークを用いてKotlin@<fn>{Building_web_applications_with_Spring_Boot_and_Kotlin}で書かれているとします。
-//footnote[Building_web_applications_with_Spring_Boot_and_Kotlin]["Building web applications with Spring Boot and Kotlin" https://spring.io/guides/tutorials/spring-boot-kotlin ]
+//footnote[Building_web_applications_with_Spring_Boot_and_Kotlin]["Building web applications with Spring Boot and Kotlin" https://spring.io/guides/tutorials/spring-boot-kotlin]
 
 ただし、Claude Code以外のAI Agentツールを使う場合でも、基本的な考え方は同じです。Claude Code特有の機能（Skills, SubAgents, Agent Teamsなど）については扱いませんので、その他のAI Agentツールを使う場合でも参考になると思います。
 また、内容は他の言語やフレームワークにも応用できるように書かれています。
 
-@<href>{https://github.com/nogu66/bookathon-team-black}
-
 === 本書の位置付け
 
-生成AI・Copilot・AI Agentは@<table>{useOfAI}のように使い分けられます。本書では、AI Agentを中心に扱います。
+一般的に、生成AI・Copilot・AI Agentは@<table>{useOfAI}のように使い分けられます。本書では、AI Agentを中心に扱います。
 
 //table[useOfAI][生成AI・Copilot・AI Agentの使い分け]{
 名前	得意な用途
@@ -66,9 +64,9 @@ AI Agent	ツールを使った「手順実行」が得意（ただし危険）
 //image[nanamin/AI_Glossary][用語Map]{
   用語集
 //}
+本書では、エンジニアの方にとっては一番身近な開発の話から始めます。続いて、文脈(RAG)、AI拡張(MCP)、Security(AI TRiSM)の順に解説します。
 
 #@#  参考: https://forest.watch.impress.co.jp/docs/serial/aidev/2078521.html
-
 
 == 壊さない開発：AIにやらせて良い仕事・悪い仕事
 
@@ -211,3 +209,6 @@ Host / Client / Serverで責務を分ける
  * 社内知識を渡す最小セット（chap3）
  * 安全なツール連携の入口（chap4）
  * ガバナンスの最小運用（chap5）
+
+ 本書のコードは以下のGitHubリポジトリで公開しています。
+ @<href>{https://github.com/nogu66/bookathon-team-black}
